@@ -1,0 +1,43 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+main > * {
+  margin-bottom: 1em;
+}
+
+.center {
+  text-align: center;
+}
+
+.nice-section {
+  padding: 2em 4em;
+  border: 1px solid #333;
+}
+
+.nice-section > * {
+  margin-top: 1em;
+}
+
+.nice-section > *:first-child {
+  margin-top: 0;
+}
+
+.nice-section label {
+  display: flex;
+  flex-direction: row;
+  padding-right: 0.5em;
+}
+.nice-section input {
+  border-radius: 1em;
+  margin-left: 0.5em;
+}
+
+.nice-section button {
+  border-radius: 1em;
+  padding: 0.5em 1em;
+  background-color: rebeccapurple;
+  border: none;
+}
