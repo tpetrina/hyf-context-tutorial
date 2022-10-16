@@ -1,6 +1,6 @@
 import { createContext, useContext, useMemo, useState } from "react";
 
-const UserContext = createContext({});
+const UserContext = createContext();
 
 export function UserProvider({ children }) {
   const [state, setState] = useState({
@@ -29,55 +29,10 @@ export function UserProvider({ children }) {
 
 export function useUser() {
   const user = useContext(UserContext);
-  return user;
-}
 
-const LanguageContext = createContext({
-  language: "dk",
-});
-
-function LanguageProvider({ children }) {
-  const [settings, setSettings] = useState({
-    language: "dk",
-  });
-
-  function changeLanguage(newLanguage) {
-    if (newLanguage === "dk" || newLanguage === "en") {
-      setLanguage(newLanguage);
-    }
+  if (!user) {
+    throw new Error("Did you forget to put this under UserProvider");
   }
 
-  return (
-    <LanguageContext.Provider
-      value={{
-        ...settings,
-        changeLanguage,
-      }}
-    >
-      {children}
-    </LanguageContext.Provider>
-  );
-}
-
-function useLanguage() {
-  const value = useContext(LanguageContext);
-  return value;
-}
-
-// how to use it
-function LanguagePicker() {
-  const value = useLanguage();
-
-  return (
-    <>
-      Current language: {value.language}
-      <button
-        onClick={() => {
-          value.changeLanguage("en");
-        }}
-      >
-        Change to en
-      </button>
-    </>
-  );
+  return user;
 }
