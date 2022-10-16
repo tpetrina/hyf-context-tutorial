@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useUser } from "./user-context";
 
-export function Login({ onLogin }) {
+export function Login() {
   const [username, setUsername] = useState("");
+  const { onLogin } = useUser();
 
   function login() {
     onLogin(username);

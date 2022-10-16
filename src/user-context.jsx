@@ -3,10 +3,26 @@ import { createContext, useContext, useMemo, useState } from "react";
 const UserContext = createContext({});
 
 export function UserProvider({ children }) {
-  const [value] = useState({
+  const [state, setState] = useState({
     isLoggedIn: false,
-    username: "test",
+    username: "INITIAL VALUE",
   });
+
+  const value = {
+    ...state,
+    onLogin: (username) => {
+      setState({
+        isLoggedIn: true,
+        username: username,
+      });
+    },
+    onLogout: () => {
+      setState({
+        isLoggedIn: false,
+        username: "",
+      });
+    },
+  };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

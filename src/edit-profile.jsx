@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useUser } from "./user-context";
 
-export function EditProfile({ username: initial }) {
+export function EditProfile() {
+  const { username: initial } = useUser();
   const [username, setUsername] = useState(initial);
 
   return (

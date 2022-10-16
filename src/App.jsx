@@ -1,12 +1,10 @@
-import { useState } from "react";
 import "./App.css";
 import { EditProfile } from "./edit-profile";
 import { Login } from "./login";
 import { Logout } from "./logout";
+import { UserProvider, useUser } from "./user-context";
 
 function App() {
-  const [username, setUsername] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   /*
     TODO:
       1. After login show different component
@@ -15,37 +13,35 @@ function App() {
   **/
 
   return (
-    <main>
-      <Navbar
-        username={username}
-        isLoggedIn={isLoggedIn}
-        onLogin={(u) => {
-          setIsLoggedIn(true);
-          setUsername(u);
-        }}
-        onLogout={() => setIsLoggedIn(false)}
-      />
-      <h1>Simple context app</h1>
+    <UserProvider>
+      <main>
+        <Navbar />
+        <h1>Simple context app</h1>
 
-      {isLoggedIn ? (
-        <>
-          <Content username={username} />
-        </>
-      ) : null}
-    </main>
+        <Content />
+      </main>
+    </UserProvider>
   );
 }
 
-function Content({ username }) {
+function Content() {
+  const { isLoggedIn } = useUser();
+
+  if (!isLoggedIn) {
+    return <>Please log in</>;
+  }
+
   return (
     <>
       <h2>Edit profile page</h2>
-      <EditProfile username={username} />
+      <EditProfile />
     </>
   );
 }
 
-function Navbar({ username, isLoggedIn, onLogin, onLogout }) {
+function Navbar() {
+  const { isLoggedIn, username } = useUser();
+
   return (
     <section
       style={{
@@ -55,12 +51,7 @@ function Navbar({ username, isLoggedIn, onLogin, onLogout }) {
       }}
     >
       <h1>My cool app</h1>
-      Welcome '{username}'
-      {isLoggedIn ? (
-        <Logout onLogout={onLogout} />
-      ) : (
-        <Login onLogin={onLogin} />
-      )}
+      Welcome '{username}'{isLoggedIn ? <Logout /> : <Login />}
     </section>
   );
 }
